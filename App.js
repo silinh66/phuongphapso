@@ -1,144 +1,147 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Keyboard, FlatList, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      bacString: '',
       bac: null,
-      listInput: [],
-      x: [],
-      x: 'string',
-      fx: [],
-      fxString: ''
+      xString: [],
+      yString: [],
+      x: null,
+      y: null,
+      x1: '',
+      x2: '',
+      x3: '',
+      y1: '',
+      y2: '',
+      y3: '',
+      listInput: {
+        x: [],
+        y: []
+      },
     };
   }
 
-  // componentDidUpdate(prevProps, prevState){
-  //   if(this.state !== prevState){
-  //     this.setState({
-  //       listInput: this.state.listInput
-  //     })
-  //   }
-  // }
-
-  // renderItem = () => {
-  //   return (
-  //     <View key={i} style={{flexDirection: 'row'}}>
-  //           <TextInput 
-  //           style={[styles.textInput, {marginHorizontal: 10}]} placeholder={`Enter x${i+1}`}
-  //           onChangeText={(x) => {
-  //             console.log('x', this.state.x);
-  //             this.setState({
-  //               x: this.state.x.push(x),
-  //             })
-  //           }}
-  //           />
-  //           <TextInput 
-  //           style={styles.textInput} placeholder={`Enter f(x${i+1})`}
-  //           onChangeText={(fx) => {
-  //             this.setState({
-  //               fx: [...this.state.fx, fx]
-  //             })
-  //           }}
-  //           />
-  //         </View>
-  //   )
-  // }
-
   render() {
-    console.log('x', this.state.x);
-    console.log('fx', this.state.fx);
-    // console.log('listinput', this.state.listInput);
-    var listInput = [];
-    if(this.state.bac!== null){
+    console.log('bac', this.state.bac);
+    // console.log('x', this.state.listInput.x);
+    // console.log('y', this.state.listInput.y);
+    console.log('xString', this.state.xString);
+    console.log('yString', this.state.yString);
+    const listInput=[];
+    if(this.state.bac!==null){
       for (let i = 0; i < this.state.bac; i++) {
-        listInput.push(
-          // <View style={{flex: 1}} key={i}>
-          //   <ScrollView style={{flex: 1}}>
-          <View key={i} style={{flexDirection: 'row'}}>
-            <TextInput 
-            style={[styles.textInput, {marginHorizontal: 10}]} placeholder={`Enter x${i+1}`}
-            onChangeText={(xString) => {
-              console.log(`x${i+1}=`,xString);
-              this.setState({
-                
-              })
-            }}
-            />
-            <TextInput 
-            style={styles.textInput} placeholder={`Enter f(x${i+1})`}
-            onChangeText={(fxString) => {
-              console.log(`f(${i+1})=`, fxString);
-              this.setState({
-                fxString,
-              })
-            }}
-            />
+        listInput.push((
+          <View key={i} style={{flexDirection: 'row', margin: 5}}>
+            <TextInput style={styles.valueInput} placeholder={`Enter x${i+1}`} placeholderTextColor="white" 
+            onChangeText={(text) => {
+              let newArray = [...this.state.xTring];
+                  newArray[i]=text;
+                  this.setState({
+                    xTring: newArray,
+            })}}/>
+            <TextInput style={styles.valueInput} placeholder={`Enter y${i+1}`} placeholderTextColor="white"
+            onChangeText={(text) => {
+              let newArray = [...this.state.yTring];
+                  newArray[i]=text;
+                  this.setState({
+                    yTring: newArray,
+            })}}/>
           </View>
-          //   </ScrollView>
-          // </View>
-        )
+        ))
       }
     }
+    
+     
     return (
-      <View style={{alignItems: 'center', flex: 1, width: '100%'}}> 
-      <ScrollView>
-      <Text style={{fontSize: 24, fontWeight: 'bold', color: 'orange'}}>Phương pháp Newton</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>Phương pháp số</Text>
         <TextInput 
-        style={styles.textInput} 
-        placeholder="Nhập số bậc của đa thức" 
-        onChangeText={(text) => {
+        style={styles.bacInput}
+        placeholder="Nhập bậc của đa thức"
+        placeholderTextColor="white"
+        onChangeText={(bacString) => {
           this.setState({
-            text,
+            bacString,
           })
         }}/>
-        <TouchableOpacity 
-        style={{borderWidth: 1, padding: 10, borderColor: 'gray', borderRadius: 15, margin: 10, paddingHorizontal: 70}}
+        <TouchableOpacity
+        style={styles.submitButton}
         onPress={() => {
           this.setState({
-            bac: this.state.text,
+            bac: this.state.bacString,
           });
           Keyboard.dismiss();
         }}>
-          <Text>Enter</Text>
-        </TouchableOpacity>
-        <Text style={{alignSelf: 'center'}}>Bac: {this.state.bac}</Text>
-        {/* {this.state.bac ? <View>
-          <TextInput style={styles.textInput} placeholder="Enter x1"/>
-          <TextInput style={styles.textInput} placeholder="Enter f(x1)"/>
-        </View> : null} */}
-        {/* <ScrollView> */}
-        {
-          // this.state.listInput
-          listInput
-        }
-        {/* </ScrollView> */}
-        {/* {this.state.bac ? <FlatList
-        data={this.state.listInput}
-        renderItem={this.renderItem}
-        keyExtractor={(item) => item.key}
-      /> : null} */}
-      <TouchableOpacity onPress={() => {
-        this.setState({
-          x: [...x,]
-        })
-      }}>
-        <Text>Enter</Text>
-      </TouchableOpacity>
-      </ScrollView>     
+          <Text style={styles.textSubmit}>Submit</Text>
+        </TouchableOpacity>  
+            <View>
+              {listInput.length !==0 ? 
+                <View>
+                  {listInput}
+                  <TouchableOpacity
+                    style={styles.submitButton}
+                    onPress={() => {
+                      this.setState({
+                        listInput: {
+                          x: [...this.state.listInput.x, this.state.x1, this.state.x2, this.state.x3],
+                          y: [...this.state.listInput.y, this.state.y1, this.state.y2, this.state.y3]
+                        }
+                      });
+
+                      Keyboard.dismiss();
+                    }}>
+                    <Text style={styles.textSubmit}>Submit value</Text>
+                  </TouchableOpacity>
+                  
+              </View>  
+               : null}
+            </View>  
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  textInput: {
-    borderWidth: 1, 
-    borderRadius: 15, 
-    borderColor: 'gray', 
-    padding: 10, 
-    marginTop: 15
+  bacInput: {
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    backgroundColor: 'orange',
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  container: {
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'orange',
+    // alignSelf: 'center'
+  },
+  submitButton: {
+    marginTop: 10,
+    // borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 65,
+    paddingVertical: 10,
+    backgroundColor: 'orange'
+  },
+  textSubmit: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  valueInput: {
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    backgroundColor: 'orange',
+    color: 'white',
+    fontWeight: 'bold',
+    marginHorizontal: 5,
   }
 });
