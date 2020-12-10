@@ -18,7 +18,18 @@ Navigation.events().registerAppLaunchedListener(async => {
                 children: [
                     {
                         component: {
-                            name: 'App'
+                            name: 'App',
+                            options: {
+                                topBar: {
+                                    title: {
+                                        text: "Phương pháp số ",
+                                        color: 'orange',
+                                        fontSize: 24,
+                                        fontWeight: 'bold',
+                                        alignment: 'center'
+                                    }
+                                }
+                            }
                         }
                     }
                 ]

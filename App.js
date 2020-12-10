@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, ScrollView } from 'react-native';
 
 export default class App extends Component {
   constructor(props) {
@@ -11,12 +11,7 @@ export default class App extends Component {
       yString: [],
       x: null,
       y: null,
-      x1: '',
-      x2: '',
-      x3: '',
-      y1: '',
-      y2: '',
-      y3: '',
+   
       listInput: {
         x: [],
         y: []
@@ -24,40 +19,54 @@ export default class App extends Component {
     };
   }
 
-  render() {
-    console.log('bac', this.state.bac);
-    // console.log('x', this.state.listInput.x);
-    // console.log('y', this.state.listInput.y);
-    console.log('xString', this.state.xString);
-    console.log('yString', this.state.yString);
-    const listInput=[];
+  submitValues = () => {
+    var arrayX = this.state.listInput.x;
+    var arrayY = this.state.listInput.y;
+    for (let i = 0; i < this.state.bac; i++) {
+      var keyX="x"+i.toString();
+      var keyY="y"+i.toString();
+      arrayX.push(Number.parseInt(this.state[keyX], 10));
+      arrayY.push(Number.parseInt(this.state[keyY], 10))
+    }
+    this.setState({
+      listInput: {
+        x: arrayX,
+        y: arrayY
+      }
+    })
+    Keyboard.dismiss();
+  }
+
+  getInput = (listInput) => {
     if(this.state.bac!==null){
       for (let i = 0; i < this.state.bac; i++) {
         listInput.push((
-          <View key={i} style={{flexDirection: 'row', margin: 5}}>
+              <View key={i} style={{flexDirection: 'row', margin: 5}}>
             <TextInput style={styles.valueInput} placeholder={`Enter x${i+1}`} placeholderTextColor="white" 
             onChangeText={(text) => {
-              let newArray = [...this.state.xTring];
-                  newArray[i]=text;
-                  this.setState({
-                    xTring: newArray,
-            })}}/>
+              var key = "x"+i.toString();
+                  this.state[key]=text;
+                  }}/>
             <TextInput style={styles.valueInput} placeholder={`Enter y${i+1}`} placeholderTextColor="white"
             onChangeText={(text) => {
-              let newArray = [...this.state.yTring];
-                  newArray[i]=text;
-                  this.setState({
-                    yTring: newArray,
-            })}}/>
-          </View>
+              var key = "y"+i.toString();
+                  this.state[key]=text;
+                  }}/>
+          </View>        
         ))
       }
     }
-    
-     
+    return listInput;
+  }
+
+  render() {
+    const listInput=[];
+    this.getInput(listInput);
+    console.log('listInput.x = ', this.state.listInput.x);
+    console.log('listInput.y = ', this.state.listInput.y);
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Phương pháp số</Text>
+        <ScrollView style={styles.scrollView}>
         <TextInput 
         style={styles.bacInput}
         placeholder="Nhập bậc của đa thức"
@@ -77,28 +86,22 @@ export default class App extends Component {
         }}>
           <Text style={styles.textSubmit}>Submit</Text>
         </TouchableOpacity>  
+        
             <View>
               {listInput.length !==0 ? 
                 <View>
-                  {listInput}
+                    {listInput}
                   <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={() => {
-                      this.setState({
-                        listInput: {
-                          x: [...this.state.listInput.x, this.state.x1, this.state.x2, this.state.x3],
-                          y: [...this.state.listInput.y, this.state.y1, this.state.y2, this.state.y3]
-                        }
-                      });
-
-                      Keyboard.dismiss();
-                    }}>
+                    onPress={this.submitValues}>
                     <Text style={styles.textSubmit}>Submit value</Text>
                   </TouchableOpacity>
                   
               </View>  
                : null}
             </View>  
+                  </ScrollView>
+        
       </View>
     );
   }
@@ -111,29 +114,31 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: 'orange',
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   container: {
     alignItems: 'center'
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'orange',
-    // alignSelf: 'center'
-  },
+  // title: {
+  //   fontSize: 24,
+  //   fontWeight: 'bold',
+  //   color: 'orange',
+  //   // alignSelf: 'center'
+  // },
   submitButton: {
     marginTop: 10,
     // borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 65,
     paddingVertical: 10,
-    backgroundColor: 'orange'
+    backgroundColor: 'orange',
+    marginBottom: 10,
   },
   textSubmit: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
   },
   valueInput: {
     borderRadius: 10,
@@ -143,5 +148,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     marginHorizontal: 5,
+  },
+  scrollView: {
+    
   }
 });
