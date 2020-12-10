@@ -5,6 +5,7 @@
 // import {AppRegistry} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import App from './App';
+import InputFileScreen from './app/screens/InputFileScreen';
 import InputScreen from './app/screens/InputScreen';
 import ResultScreen from './app/screens/ResultScreen';
 // import {name as appName} from './app.json';
@@ -15,6 +16,7 @@ import ResultScreen from './app/screens/ResultScreen';
 Navigation.registerComponent('App', () => App);
 Navigation.registerComponent('InputScreen', () => InputScreen);
 Navigation.registerComponent('ResultScreen', () => ResultScreen);
+Navigation.registerComponent('InputFileScreen', () => InputFileScreen);
 Navigation.events().registerAppLaunchedListener(async => {
     Navigation.setRoot({
         root: {

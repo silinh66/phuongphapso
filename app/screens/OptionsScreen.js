@@ -13,7 +13,7 @@ export default class OptionsScreen extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity 
-            style={styles.banPhimInput}
+            style={[styles.banPhimInput, {paddingHorizontal: 60}]}
             onPress={() => {
                 Navigation.push(this.props.componentId, {
                     component: {
@@ -41,7 +41,32 @@ export default class OptionsScreen extends Component {
             >
             <Text style={styles.textButton}>Nhập input từ bàn phím</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fileInput}>
+        <TouchableOpacity 
+        onPress={() => {
+            Navigation.push(this.props.componentId, {
+                component: {
+                    name: 'InputFileScreen',
+                        options: {
+                            topBar: {
+                                title: {
+                                    text: "Input File",
+                                    color: 'white',
+                                    fontSize: 24,
+                                    fontWeight: 'bold',
+                                    alignment: 'center'
+                                },
+                                background: {
+                                    color: 'orange'
+                                },
+                                backButton: {
+                                    color: 'white'
+                                }
+                            }
+                        }  
+                }
+            })
+        }}
+        style={styles.fileInput}>
             <Text style={styles.textButton}>Nhập input từ file</Text>
         </TouchableOpacity>
       </View>
@@ -73,7 +98,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     textButton: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
         color: 'white',
     }

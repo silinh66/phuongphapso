@@ -8,6 +8,10 @@ target 'phuongphapso' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
+
   target 'phuongphapsoTests' do
     inherit! :complete
     # Pods for testing
