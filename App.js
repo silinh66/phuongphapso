@@ -11,7 +11,7 @@ export default class App extends Component {
       yString: [],
       x: null,
       y: null,
-   
+      a: [],
       listInput: {
         x: [],
         y: []
@@ -33,7 +33,90 @@ export default class App extends Component {
         x: arrayX,
         y: arrayY
       }
-    })
+    });
+    for (let i = 0; i < this.state.bac; i++) {
+      console.log('i', i);
+      var tu=this.state.listInput.y[i];
+      var mau=1;
+      var tong=0;
+      var key="a"+i.toString();
+      if(i===0 && this.state.a.length !==0){
+        this.state[key]=this.state.listInput.y[0];
+        var arrayA = this.state.a;
+        arrayA.push(this.state[key]);
+        this.setState({
+          a: arrayA,
+        })
+        // mau=1;
+        // this.setState({
+        //   a: [...this.state.a, this.state.listInput.y[0]]
+        // })
+      } else {
+        for (let j = 0; j < i; j++) {
+          mau*=(this.state.listInput.x[i]-this.state.listInput.x[j]);
+          if(j===0){
+            tong+=this.state.a[0];
+            // console.log('a[0]', this.state.a[0]);
+            // console.log('tong', tong);
+
+          } else {
+            var tich=1;
+            for (let k = 0; k < j; k++) {
+              tich*=(this.state.listInput.x[i]-this.state.listInput.x[k]);
+            }
+            console.log('tich', tich);
+            tong+=tich*this.state.a[j];
+            // console.log('tong', tong);
+          }
+        }
+        // console.log('mau', mau);
+        tu-=tong;
+      }
+      // console.log('tu, mau', tu, mau);
+
+      if(mau!==0){
+        arrayA = this.state.a;
+        arrayA.push(tu/mau);
+        this.setState({
+          a: arrayA
+        })
+      }
+      // console.log('a.length', this.state.a.length);
+      // console.log('bac', this.state.bac);
+      // console.log('is a.length == bac?', this.state.a.length === this.state.bac);
+
+      if(this.state.a.length===this.state.bac){
+
+        var result = '';
+        for (let i = 0; i < this.state.bac; i++) {
+          if(this.state.a[i]!==0){
+          if(i===0){
+            result+=this.state.a[i].toString();
+            result+="+"
+            
+          } else {
+            if(this.state.a[i]!==1){
+              result+=this.state.a[i].toString();
+            }
+            for (let j = 0; j < i; j++) {
+              result+=`(x-${this.state.listInput.x[j]})`          
+            
+            }       
+          }
+          var count=0;
+          for (let k = i; k < this.state.bac; k++) {
+            if(this.state.a[k]===0){
+              count++;
+            }      
+          }
+          if(i!==(this.state.bac-1-count)&&this.state.a[i+1]>0){ 
+            result+="+";
+          }
+        }
+        }
+        console.log('result', result);
+      }
+    }
     Keyboard.dismiss();
   }
 
@@ -62,14 +145,17 @@ export default class App extends Component {
   render() {
     const listInput=[];
     this.getInput(listInput);
-    console.log('listInput.x = ', this.state.listInput.x);
-    console.log('listInput.y = ', this.state.listInput.y);
+    // console.log('listInput.x = ', this.state.listInput.x);
+    // console.log('listInput.y = ', this.state.listInput.y);
+    // console.log('state.a = ', this.state.a);
+    console.log('a', this.state.a);
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
         <TextInput 
         style={styles.bacInput}
-        placeholder="Nhập bậc của đa thức"
+        placeholder="Nhập số điểm input"
         placeholderTextColor="white"
         onChangeText={(bacString) => {
           this.setState({
@@ -80,7 +166,7 @@ export default class App extends Component {
         style={styles.submitButton}
         onPress={() => {
           this.setState({
-            bac: this.state.bacString,
+            bac: Number.parseInt(this.state.bacString, 10),
           });
           Keyboard.dismiss();
         }}>
